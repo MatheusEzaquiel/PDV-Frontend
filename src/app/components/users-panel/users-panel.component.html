@@ -1,0 +1,13 @@
+<section class="users-panel">
+    <h2>Lista de Usuários</h2>
+        <div *ngFor="let user of users" class="box-user">
+
+            <h2 class="username">{{ user.name }}</h2>
+            <p class="email status active">{{ user.email }}</p>
+            <p class="role">Cargo: {{ user.role }}</p>
+            <div class="user-actions">
+                <a routerLink="/user/{{user.userId}}" class="btn edit">Editar</a>
+                <button type="button" class="button delete" (click)=removeUser(user.userId) class="btn delete">Remover</button>
+            </div>
+        </div>
+</section>

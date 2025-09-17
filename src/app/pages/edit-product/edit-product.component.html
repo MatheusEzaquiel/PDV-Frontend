@@ -1,0 +1,41 @@
+<p>Edição de Produto</p>
+
+<form (ngSubmit)="onSubmit()" #productForm="ngForm">
+
+    <div class="field-group">
+        <label for="name">Nome</label>
+        <input type="text" id="name" name="name" [(ngModel)]="product.name" required />
+      </div>
+
+      <div class="field-group">
+        <label for="price">Preço</label>
+        <input type="number" id="price" name="price" [(ngModel)]="product.price" required />
+      </div>
+
+      <div class="field-group">
+        <label for="sku">SKU</label>
+        <input type="text" id="sku" name="sku" [(ngModel)]="product.sku" required />
+      </div>
+
+      <div class="field-group">
+        <label for="barcode">Código de Barras</label>
+        <input type="text" id="barcode" name="barcode" [(ngModel)]="product.barcode" required />
+      </div>
+
+      <div class="field-group">
+        <label for="stockQty">Quantidade em Estoque</label>
+        <input type="number" id="stockQuantity" name="stockQuantity" [(ngModel)]="product.stockQuantity" required />
+      </div>
+
+      <div class="field-group">
+        <label for="categoryId">Categoria</label>
+        <select id="categoryId" name="categoryId" [(ngModel)]="product.categoryId" required>
+          <option value="" disabled selected>Selecione uma categoria</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+
+      <button type="submit">Atualizar</button>
+</form>

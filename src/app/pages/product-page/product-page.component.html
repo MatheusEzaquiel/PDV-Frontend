@@ -1,0 +1,32 @@
+
+<div class="form-section">
+  <form class="product-form">
+    <div class="product-list">
+      <h3>Lista de Produtos</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>SKU</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of productList">
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.sku }}</td>
+            <td>
+              <button (click)="edit(product.id)">Edit</button>
+              <button (click)="remove(product.id)">Remove</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button (click)="goToCreatePage()">Criar Produto</button>
+    </div>
+  </form>
+</div>

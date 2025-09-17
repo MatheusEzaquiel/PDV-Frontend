@@ -1,0 +1,49 @@
+.alert-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  padding: 15px;
+  border-radius: 8px;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.3s ease-out;
+  z-index: 9999;
+  font-family: sans-serif;
+}
+
+.alert-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.alert-message {
+  font-size: 14px;
+}
+
+/* Cores dinâmicas por tipo */
+.success {
+  background-color: #4caf50;
+}
+.error {
+  background-color: #f44336;
+}
+.warning {
+  background-color: #ff9800;
+}
+.info {
+  background-color: #2196f3;
+}
+
+/* Animação opcional */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  } 
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
