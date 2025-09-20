@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { Role } from '../../models/Role.model';
+import { IRole } from '../../interfaces/IRole';
 import { UsersPanelComponent } from "../../components/users-panel/users-panel.component";
 import { UserService } from '../../services/user.service';
+import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'app-users-page',
@@ -15,7 +16,7 @@ import { UserService } from '../../services/user.service';
     FormsModule,
     CommonModule,
     UsersPanelComponent
-],
+  ],
   templateUrl: './users-page.component.html',
   styleUrl: './users-page.component.css'
 })
@@ -30,13 +31,12 @@ export class UsersPageComponent {
   incorrect: boolean;
   loading: boolean;
 
-  roles: Role[] = [
-    { id: 1, name: 'Administrador' },
-    { id: 2, name: 'Usuário' },
-    { id: 3, name: 'Gerente' }
-  ]; 
+  roles: IRole[] = [];
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private roleService: RoleService) {
     this.name = "";
     this.email = "";
     this.role = "";
@@ -45,11 +45,15 @@ export class UsersPageComponent {
     this.loading = false;
   }
 
+  ngOnInit(): void {
+    this.fetchRoles();
+  }
+
   async onSubmit() {
-    
+
     this.loading = true;
 
-    if(this.name != null && this.email != null && this.selectedRoleId != null) {
+    if (this.name != null && this.email != null && this.selectedRoleId != null) {
 
       console.log(this.name, this.email, this.selectedRoleId);
 
@@ -59,15 +63,26 @@ export class UsersPageComponent {
             this.userService.checkResponseStatus(response);
             console.log(response.message);
           },
-          (error) => { console.error('Erro ao Criar usuário:', error.message);}
+          (error) => { console.error('Erro ao Criar usuário:', error.message); }
         );
 
-        
       this.loading = false;
       this.incorrect = true;
       //this.router.navigate(['/']);
     }
 
+
   }
-  
+
+  fetchRoles() {
+    this.roleService.getRoles().subscribe(
+      response => {
+        this.roles = response.data ?? [];
+        console.log("retrieved roles:" + response.data?.length);
+      }, error => {
+        console.error('Error to get Roles: ', error);
+        this.loading = false;
+      });
+  }
+
 }

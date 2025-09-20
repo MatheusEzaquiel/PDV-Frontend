@@ -18,7 +18,7 @@
             <div class="field-group">
                 <label for="role">Papel</label>
                 <select id="roleId" name="roleId" [(ngModel)]="selectedRoleId">
-                    <option *ngFor="let role of staticRoles" [value]="role.id">
+                    <option *ngFor="let role of defaultRoles" [value]="role.id">
                         {{ role.name }}
                     </option>
                 </select>

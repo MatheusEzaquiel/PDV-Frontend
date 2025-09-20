@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Role } from '../../models/Role.model';
+import { IRole } from '../../interfaces/IRole';
+import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -22,23 +23,23 @@ export class EditUserComponent {
   email: string;
   role: string;
   selectedRoleId: number;
-  roles: Role[];
+  roles: IRole[];
 
   incorrect: boolean;
   loading: boolean;
 
 
-  staticRoles: Role[] = [
-    { id: 1, name: 'Administrador'},
-    { id: 2, name: 'Usuário' },
-    { id: 3, name: 'Gerente' }
-  ];
+  defaultRoles: IRole[] = [];
 
-  constructor(private route: ActivatedRoute, private userService: UserService) {
+  constructor(
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private roleService: RoleService
+  ) {
     this.name = "";
     this.email = "";
     this.role = "";
-    this.roles = this.staticRoles;
+    this.roles = this.defaultRoles;
     this.selectedRoleId = 0
     this.incorrect = false;
     this.loading = false;
@@ -50,7 +51,8 @@ export class EditUserComponent {
       if (paramId) {
         this.userId = parseInt(paramId);
 
-        this.loadUserData();
+        this.fetchUser();
+        this.fetchRoles();
       }
     });
   }
@@ -64,7 +66,18 @@ export class EditUserComponent {
     );
   }
 
-  loadUserData() {
+  fetchRoles() {
+    this.roleService.getRoles().subscribe(
+      response => {
+        this.defaultRoles = response.data ?? [];
+        console.log("retrieved roles:" + response.data?.length);
+    }, error => {
+      console.error('Error to get Roles: ', error);
+      this.loading = false;
+    });
+  }
+
+  fetchUser() {
     this.userService.getById(this.userId).subscribe(response => {
       this.user = response.data;
 
@@ -77,6 +90,7 @@ export class EditUserComponent {
       console.error('Erro ao buscar usuário:', error);
       this.loading = false;
     });
+    
   }
 
 }
