@@ -13,7 +13,7 @@
 }
 
 .box-user {
-    background-color: #e3f3eb;
+    background-color: var(--color-neutral-light);
     padding: 0.5rem;
     padding-left: 1rem;
     margin-top: 1rem;
@@ -58,7 +58,7 @@
     }
 
     .btn.edit {
-        background-color: #2563eb;
+        background-color: var(--color-status-success);;
         color: white;
     }
 

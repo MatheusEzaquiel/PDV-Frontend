@@ -1,11 +1,3 @@
-<!--<form (ngSubmit)="onSubmit()">
-    <div class="field-group">
-        <label for="product-search">Código do Produto (Nome, SKU, Cód. de Barras)</label>
-        <input type="text" id="product-search"  [formControl]="searchProduct" name="productSearch" required />
-    </div>
-    <button type="submit">Atualizar</button>
-</form>-->
-
 <ul *ngIf="productsFounded.length > 0" class="floating-list" [hidden]="!isVisible">
     <li *ngFor="let product of productsFounded">
         <strong>{{ product.name }}</strong><br />
@@ -38,9 +30,9 @@
         <div class="form-section">
 
             <form action="" (ngSubmit)="onSubmit()">
-                <div class="field-group">
-                    <label for="product-search">Código do Produto (Nome, SKU, Cód. de Barras)</label>
-                    <input type="text" id="product-search" [formControl]="searchProduct" name="productSearch"
+                <div class="form-group">
+                    <label class="default-label" for="product-search">Código do Produto</label>
+                    <input type="text" id="product-search" [formControl]="searchProduct" name="productSearch" placeholder="Nome, SKU ou Cód. de Barras..."
                         required />
                 </div>
 
@@ -50,7 +42,7 @@
                 </div>
 
                 <div class="button-group">
-                    <button cla ss="btn btn-green " (click)="addItemToSale()">ADICIONAR AO PEDIDO</button>
+                    <button class="btn-send-sale" (click)="addItemToSale()">ADICIONAR AO PEDIDO</button>
                 </div>
 
             </form>

@@ -2,3 +2,22 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root {
+  /* Paleta Empresarial Azul */
+  --color-primary: #1E3A5F;
+  --color-blue-secondary: #2F5D8A;
+  --color-accent-light: #4A90E2;
+
+  /* Neutros */
+  --color-neutral-dark: #2C2C2C;
+  --color-neutral-light: #E5E5E5;
+
+  /* Cores de Apoio */
+  --color-action: #F5A623;
+  --color-status-success: #27AE60;
+  --color-status-error: #E74C3C;
+
+  --color-text-main: var(--color-neutral-dark);
+  --color-text-light: #FFFFFF;
+}

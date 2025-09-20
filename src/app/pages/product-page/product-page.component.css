@@ -24,7 +24,7 @@
   }
 
   thead {
-    background-color: #007bff;
+    background-color: var(--color-blue-secondary);
     color: white;
   }
 
@@ -62,7 +62,7 @@
 
   .product-list > button {
     margin-top: 20px;
-    background-color: #007bff;
+    background-color: var(--color-blue-secondary);
     color: white;
     padding: 8px 16px;
     border-radius: 6px;
