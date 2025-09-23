@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -28,10 +28,12 @@ export class UsersPageComponent {
   role: string;
   selectedRoleId: number;
 
-  incorrect: boolean;
+  isUpdatedUser: boolean | null = null;
   loading: boolean;
 
   roles: IRole[] = [];
+
+  @Output() userCreated = new EventEmitter<void>();
 
   constructor(
     private router: Router,
@@ -41,7 +43,6 @@ export class UsersPageComponent {
     this.email = "";
     this.role = "";
     this.selectedRoleId = 0
-    this.incorrect = false;
     this.loading = false;
   }
 
@@ -55,23 +56,21 @@ export class UsersPageComponent {
 
     if (this.name != null && this.email != null && this.selectedRoleId != null) {
 
-      console.log(this.name, this.email, this.selectedRoleId);
-
       this.userService.createUser(this.name, this.email, this.selectedRoleId)
         .subscribe(
           (response) => {
             this.userService.checkResponseStatus(response);
+            this.isUpdatedUser = true;
+            this.userCreated.emit();
+            this.resetAlert();
             console.log(response.message);
           },
-          (error) => { console.error('Erro ao Criar usuário:', error.message); }
-        );
-
+          (error) => {
+            this.isUpdatedUser = false;
+            console.error('Erro ao Criar usuário:', error.message);
+          });
       this.loading = false;
-      this.incorrect = true;
-      //this.router.navigate(['/']);
     }
-
-
   }
 
   fetchRoles() {
@@ -85,4 +84,9 @@ export class UsersPageComponent {
       });
   }
 
+  resetAlert() {
+    setTimeout(() => {
+      this.isUpdatedUser = null;
+    }, 3000);
+  }
 }

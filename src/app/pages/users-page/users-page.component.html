@@ -1,6 +1,6 @@
 <section class="user-page">
 
-    <app-users-panel></app-users-panel>
+    <app-users-panel #panel [userCreated$]="userCreated"></app-users-panel>
 
     <div class="form-section">
         <form *ngIf="!loading" (ngSubmit)="onSubmit()" class="employeee-form">
@@ -9,12 +9,12 @@
                 <label for="name">Nome</label>
                 <input type="name" id="name" [(ngModel)]="name" name="name" required />
             </div>
-        
+
             <div class="field-group">
                 <label for="email">E-mail</label>
                 <input type="email" id="email" [(ngModel)]="email" name="email" required />
             </div>
-            
+
             <div class="field-group">
                 <label for="role">Papel</label>
                 <select id="roleId" name="roleId" [(ngModel)]="selectedRoleId">
@@ -24,18 +24,23 @@
                     </option>
                 </select>
             </div>
-        
-            <button type="submit">Salvar</button>
-        
-            <div *ngIf="incorrect" class="incorrect">Cadastro não realizado</div>
+
+            <button type="submit" (click)="panel.fetchUsers()">Salvar</button>
+
+            <div *ngIf="isUpdatedUser != null && isUpdatedUser" class="alert success">
+                Usuário atualizado com sucesso!
+            </div>
+
+            <div *ngIf="isUpdatedUser != null && !isUpdatedUser" class="alert error">
+                Cadastro não realizado
+            </div>
         </form>
-        
-    
+
+
         <div *ngIf="loading">Loading...</div>
-    
+
         <!--<mat-slide-toggle>Toggle me!</mat-slide-toggle>-->
     </div>
-    
+
 
 </section>
-

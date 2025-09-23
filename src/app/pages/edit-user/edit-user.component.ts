@@ -25,7 +25,7 @@ export class EditUserComponent {
   selectedRoleId: number;
   roles: IRole[];
 
-  incorrect: boolean;
+  isUpdatedUser: boolean;
   loading: boolean;
 
 
@@ -41,7 +41,7 @@ export class EditUserComponent {
     this.role = "";
     this.roles = this.defaultRoles;
     this.selectedRoleId = 0
-    this.incorrect = false;
+    this.isUpdatedUser = false;
     this.loading = false;
   }
 
@@ -61,7 +61,10 @@ export class EditUserComponent {
     console.log('Dados enviados:', this.name, this.email, this.selectedRoleId);
     this.userService.updateUser(this.userId, this.name, this.email, this.selectedRoleId)
     .subscribe(
-      (response) => {console.log("atualizado!")},
+      (response) => {
+        console.log("atualizado!")
+        this.isUpdatedUser = true;
+      },
       (error) => {console.log("Erro ao atualizar Usuário!")}
     );
   }
