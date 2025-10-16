@@ -6,10 +6,12 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/Product.model';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/Category.model';
+import { StatusAlertEnum } from '../../../enum/StatusAlertEnum';
+import { AlertComponent, IAlertComponent } from '../../components/alert/alert.component';
 
 @Component({
   selector: 'app-edit-product',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, AlertComponent],
   templateUrl: './edit-product.component.html',
   styleUrl: './edit-product.component.css'
 })
@@ -20,6 +22,9 @@ export class EditProductComponent {
   categories: Category[] = [];
 
   isCorrect: boolean = false;
+
+  alertData: IAlertComponent | null = null;
+  showAlert: boolean = false;
 
   /*categories = [
     { id: 1, name: 'Bebidas' },
@@ -87,7 +92,11 @@ export class EditProductComponent {
 
           if (response.status != 200 && response.status != 201) {
             this.isCorrect = true;
+            this.showCustomAlert(StatusAlertEnum.ERROR, "Erro", "Não foi possível salvar o produto.");
+          } else {
+            this.showCustomAlert(StatusAlertEnum.SUCCESS, "Sucesso", "Produto salvo com sucesso.");
           }
+         
 
         },
         (error) => {
@@ -99,6 +108,15 @@ export class EditProductComponent {
     this.isCorrect = false;
   }
 
+  
+  showCustomAlert(type: StatusAlertEnum, title: string, message: string):void {
 
+    this.alertData = {title: title, message: message, type: type};
+    this.showAlert = true;
+
+    setTimeout(() => {
+      this.showAlert = false;
+    }, 3000);
+  }
 
 }

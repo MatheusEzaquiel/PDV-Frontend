@@ -1,5 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { StatusAlertEnum } from '../../../enum/StatusAlertEnum';
+
+
+export interface IAlertComponent {
+  title: string;
+  message: string;
+  type: StatusAlertEnum;
+}
 
 @Component({
   selector: 'app-alert',
@@ -9,7 +17,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './alert.component.css'
 })
 export class AlertComponent {
-  @Input() title: string = "";
-  @Input() message: string = "";
-  @Input() type: 'success' | 'error' | 'warning' | 'info' = 'info';
+  @Input() alertData: IAlertComponent | null = null;
 }

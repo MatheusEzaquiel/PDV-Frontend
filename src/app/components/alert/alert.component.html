@@ -1,5 +1,4 @@
-<div class="alert-box" [ngClass]="type">
-  <div class="alert-title">{{ title }}</div>
-  <div class="alert-message">{{ message }}</div>
+<div class="alert-box" [ngClass]="alertData?.type">
+  <div class="alert-title">{{ alertData?.title }}</div>
+  <div class="alert-message">{{ alertData?.message }}</div>
 </div>
-

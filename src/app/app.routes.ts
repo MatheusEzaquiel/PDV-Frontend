@@ -13,7 +13,7 @@ export const routes: Routes = [
 
     {path: 'products', component: ProductPageComponent},
     {path: 'product', component: FormProductComponent},
-    {path: 'product/:id', component: EditUserComponent},
+    {path: 'product/:id', component: EditProductComponent},
 
     {path: 'pdv', component: PDVPageComponent}
 ];

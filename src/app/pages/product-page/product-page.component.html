@@ -10,14 +10,16 @@
             <th>ID</th>
             <th>Nome</th>
             <th>SKU</th>
+            <th>Preço</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let product of productList">
-            <td>{{ product.id }}</td>
+          <tr *ngFor="let product of productList; let i = index">
+            <td>{{ i + 1 }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product.sku }}</td>
+            <td>{{ product.price | currency: 'BRL': 'symbol':'1.2-2' }}</td>
             <td>
               <button (click)="edit(product.id)">Edit</button>
               <button (click)="remove(product.id)">Remove</button>
