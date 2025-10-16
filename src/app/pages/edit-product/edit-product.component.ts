@@ -6,7 +6,7 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/Product.model';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/Category.model';
-import { StatusAlertEnum } from '../../../enum/StatusAlertEnum';
+import { StatusAlertEnum } from '../../enum/StatusAlertEnum';
 import { AlertComponent, IAlertComponent } from '../../components/alert/alert.component';
 
 @Component({

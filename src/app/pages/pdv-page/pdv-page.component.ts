@@ -9,7 +9,7 @@ import { debounceTime, filter, switchMap } from 'rxjs/operators';
 import { IProduct } from '../../interfaces/IProduct';
 import { Product } from '../../models/Product.model';
 import { PDVService } from '../../services/pdv.service';
-import { PaymentType } from '../../../enum/PaymentEnum';
+import { PaymentType } from '../../enum/PaymentEnum';
 
 @Component({
   selector: 'app-pdv-page',

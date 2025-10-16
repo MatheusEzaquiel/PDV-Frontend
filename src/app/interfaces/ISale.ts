@@ -1,4 +1,4 @@
-import { PaymentType } from "../../enum/PaymentEnum";
+import { PaymentType } from "../enum/PaymentEnum";
 
 export interface ISale {
     saleId: number;
