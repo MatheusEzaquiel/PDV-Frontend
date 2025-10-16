@@ -1,4 +1,5 @@
 import { PaymentType } from "../enum/PaymentEnum";
+import { Product } from "../models/Product.model";
 
 export interface ISale {
     saleId: number;
@@ -18,6 +19,7 @@ export interface ISaleResume {
 export interface ISaleItemForSale {
     saleUUID: string;
     productId: number;
+    product: Product | null;
     userId: number;
     total: number;
     quantity: number;

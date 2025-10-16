@@ -11,6 +11,7 @@
             <th>Nome</th>
             <th>SKU</th>
             <th>Preço</th>
+            <th>Qtd em estoque</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -20,6 +21,7 @@
             <td>{{ product.name }}</td>
             <td>{{ product.sku }}</td>
             <td>{{ product.price | currency: 'BRL': 'symbol':'1.2-2' }}</td>
+            <td>{{ product.stockQuantity}}</td>
             <td>
               <button (click)="edit(product.id)">Edit</button>
               <button (click)="remove(product.id)">Remove</button>

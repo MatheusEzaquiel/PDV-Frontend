@@ -69,8 +69,8 @@
                         <tr *ngFor="let saleItem of saleItemList">
                             <td>{{ saleItem.productId }} </td>
                             <td>{{ saleItem.quantity }} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; X</td>
-                            <td> R$ 0,00 </td>
-                            <td>R$ {{ saleItem.total }} </td>
+                            <td>{{ saleItem.product?.price }} </td>
+                            <td>{{ saleItem.total | currency:'BRL':'symbol':'1.2-2' }} </td>
                         </tr>
 
                     </tbody>
@@ -87,10 +87,12 @@
 
                 <div class="sale-info">
                     <p>Quantidade: {{ saleItemList.length }} items</p>
-                    <div class="total-value">R${{ currentSale.total }}</div>
+                    <div class="total-value">{{ currentSale.total | currency: 'BRL': 'symbol':'1.2-2' }}</div>
                 </div>
             </div>
             <div class="finalize" (click)="processSale()">FINALIZAR COMPRA</div>
+            
+            <app-alert [alertData]="alertData" *ngIf="showAlert"></app-alert>
         </div>
     </div>
 </div>

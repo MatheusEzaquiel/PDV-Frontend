@@ -67,10 +67,11 @@ export class ProductService {
       price: product.price,
       sku: product.sku,
       barcode: product.barcode,
-      stockQuantity: product.stockQuantity,
+      stockQty: product.stockQuantity,
       categoryId: product.categoryId
     }
 
+    console.log("update dto"+JSON.stringify(updateProductDTO));
     return this.http.patch<ApiResponseDTO>(APIRoutes.PRODUCTS + "/" + product.id, updateProductDTO, { headers }).pipe(
       map(response => {
         this.checkResponseStatus(response);

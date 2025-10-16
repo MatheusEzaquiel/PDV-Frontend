@@ -45,7 +45,6 @@ export class EditProductComponent {
       const paramId = params.get('id');
       if (paramId) {
         this.productId = parseInt(paramId);
-
         this.loadProduct(this.productId);
       }
     });
@@ -82,22 +81,18 @@ export class EditProductComponent {
 
   onSubmit(): void {
 
-    console.log("Sending product to update");
+    console.log("Update data of product " + this.product.sku);
     this.productService.update(this.product)
       .subscribe(
 
         (response) => {
-          //this.productService.checkResponseStatus(response);
-          console.log(response.message);
-
           if (response.status != 200 && response.status != 201) {
             this.isCorrect = true;
             this.showCustomAlert(StatusAlertEnum.ERROR, "Erro", "Não foi possível salvar o produto.");
           } else {
-            this.showCustomAlert(StatusAlertEnum.SUCCESS, "Sucesso", "Produto salvo com sucesso.");
+            this.showCustomAlert(StatusAlertEnum.SUCCESS, "Sucesso", response.message);
           }
          
-
         },
         (error) => {
           console.error(error.message);
