@@ -22,7 +22,7 @@ export class UserService {
   private endpoint = 'users';
   private fullURL = `${this.baseURL}/${this.endpoint}`;
 
-  private apiUrl = 'http://localhost:8080/users';
+  private apiUrl = 'http://127.0.0.1:8080/users';
 
   constructor(private http: HttpClient) {}
 

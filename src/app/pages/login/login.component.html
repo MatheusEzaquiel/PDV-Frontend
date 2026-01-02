@@ -1,0 +1,25 @@
+<div class="login-container">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <h2>Acesso ao PDV</h2>
+
+    <input
+      type="email"
+      placeholder="Email"
+      formControlName="email"
+    />
+
+    <small *ngIf="form.controls.email.touched && form.controls.email.invalid">
+      Email inválido
+    </small>
+
+    <input
+      type="password"
+      placeholder="Senha"
+      formControlName="password"
+    />
+
+    <button type="submit">Entrar</button>
+
+  </form>
+</div>

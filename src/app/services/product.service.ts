@@ -12,14 +12,15 @@ import { ApiResponseDTO } from '../utils/ApiResponseDTO';
 })
 export class ProductService {
 
-  private apiURL = 'http://localhost:8080/products';
+  private apiURL = 'http://127.0.0.1:8080/products';
 
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<ApiResponseDTO> {
-    return this.http.get<ApiResponseDTO>(this.apiURL)
+    return this.http.get<ApiResponseDTO>(APIRoutes.PRODUCTS)
       .pipe(
         map(response => {
+          console.log(response);
           const productList: Product[] = response.data ?? [];
           return response;
         }),

@@ -15,7 +15,7 @@ interface ApiResponse {
 })
 export class RoleService {
 
-  private baseURL = 'http://localhost:8080';
+  private baseURL = 'http://127.0.0.1:8080';
   private endpoint = 'roles';
   private apiUrl = `${this.baseURL}/${this.endpoint}`;
 
