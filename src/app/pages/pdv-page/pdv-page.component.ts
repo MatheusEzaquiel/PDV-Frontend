@@ -21,10 +21,11 @@ import { StatusAlertEnum } from '../../enum/StatusAlertEnum';
 export class PDVPageComponent implements OnInit {
 
   searchProduct = new FormControl('');
+  searchCodeProduct = new FormControl('');
   quantitySaleItem = new FormControl(0);
 
   isVisible = false;
-  
+
   currentSale: ISaleResume = { uuid: crypto.randomUUID(), total: 0, userId: 1, paymentType: PaymentType.PIX }
   currentProduct: IProduct | null = null
 
@@ -51,11 +52,34 @@ export class PDVPageComponent implements OnInit {
   constructor(private productService: ProductService, private pdvService: PDVService) { }
 
   ngOnInit(): void {
+
+    // Clean one field when the other is changed
+    this.searchProduct.valueChanges.subscribe(() => {
+      this.searchCodeProduct.setValue('', { emitEvent: false });
+    });
+
+    this.searchCodeProduct.valueChanges.subscribe(() => {
+      this.searchProduct.setValue('', { emitEvent: false });
+    });
+
+    // Search by Name
     this.searchProduct.valueChanges
       .pipe(  // controla o fluxo de dados, transforma e etc.
         filter((value): value is string => value !== null && value.trim() !== ''),
         debounceTime(300),
-        switchMap(value => this.productService.search(value)) //Quando chega um dado novo, ele cancela a requisição antiga (se ainda estiver rolando) e só faz a mais nova.
+        switchMap(value => this.productService.search(value, "name")) //Quando chega um dado novo, ele cancela a requisição antiga (se ainda estiver rolando) e só faz a mais nova.
+      )
+      .subscribe(response => {
+        this.productsFounded = response?.data ?? [];
+        this.toogleMenu(true);
+      });
+
+      // Search by Code
+      this.searchCodeProduct.valueChanges
+      .pipe(
+        filter((value): value is string => value !== null && value.trim() !== ''),
+        debounceTime(300),
+        switchMap(value => this.productService.search(value, "code"))
       )
       .subscribe(response => {
         this.productsFounded = response?.data ?? [];
@@ -65,7 +89,7 @@ export class PDVPageComponent implements OnInit {
 
   async onSubmit() {
 
-    this.productService.search(this.productSearch).subscribe({
+    this.productService.search(this.productSearch, "name").subscribe({
 
       next: response => {
         console.log(JSON.stringify(response.data))
@@ -81,13 +105,14 @@ export class PDVPageComponent implements OnInit {
   selectCurrentItem(product: IProduct) {
     console.log("valor=", JSON.stringify(product))
     this.currentProduct = product;
+    this.quantitySaleItem.setValue(1);
   }
 
   addItemToSale() {
 
     if (!this.currentProduct) return;
-    
-    const quantity = this.quantitySaleItem?.value ?? 0;
+
+    const quantity = this.quantitySaleItem?.value ?? 1;
     const price = this.currentProduct?.price ?? 0;
 
     const newSaleItem: ISaleItemForSale = {
@@ -108,9 +133,9 @@ export class PDVPageComponent implements OnInit {
 
   processSale() {
 
-    const saleWithSaleItem: ISaleWithSaleItem = { 
+    const saleWithSaleItem: ISaleWithSaleItem = {
       sale: this.currentSale,
-      saleItemList: this.saleItemList 
+      saleItemList: this.saleItemList
     }
 
     this.pdvService.createCompleteSale(saleWithSaleItem).subscribe({
@@ -139,11 +164,11 @@ export class PDVPageComponent implements OnInit {
   }
 
   cleanValues(): void {
+
     // Reset form controls
     this.searchProduct.reset('');
     this.quantitySaleItem.reset(0);
 
-    // Reset visibility
     this.isVisible = false;
 
     // Reset current sale
@@ -154,15 +179,19 @@ export class PDVPageComponent implements OnInit {
       paymentType: PaymentType.PIX
     };
 
-    // Reset current product
+    // Reset values
     this.currentProduct = null;
-
-    // Reset sale items
     this.saleItemList = [];
-
-    // Reset search
     this.productSearch = '';
     this.productsFounded = [];
+  }
+
+  increaseQuantity(saleItem: ISaleItemForSale): void {
+    saleItem.quantity += 1;
+  }
+
+  decreaseQuantity(saleItem: ISaleItemForSale): void {
+    saleItem.quantity -= 1;
   }
 
 }

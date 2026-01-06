@@ -111,8 +111,10 @@ export class ProductService {
     );
   }
 
-  search(parameterValue:string): Observable<ApiResponseDTO> {
-    let parameterName:string = "?name=";
+  search(parameterValue: string, searchParamType: string): Observable<ApiResponseDTO> {
+
+    const parameterName = searchParamType === 'code' ? '?code=' : '?name=';
+    console.log("Searching product by " + searchParamType + ": " + parameterValue);
 
     return this.http.get<ApiResponseDTO>(APIRoutes.PRODUCTS_SEARCH + parameterName + parameterValue)
       .pipe(
@@ -127,11 +129,11 @@ export class ProductService {
 
   // Tratar o Erro
   private handleError(ex: HttpErrorResponse): Observable<ApiResponseDTO> {
-    
+
     let errorMessage: string | null = null;
     errorMessage = ex.error.message;
 
-    
+
     console.error("Erro HTTP: ", errorMessage)
 
     return throwError({ status: ex.status, data: null, message: errorMessage });
@@ -139,7 +141,7 @@ export class ProductService {
 
   // Verificar o status da resposta
   checkResponseStatus(response: ApiResponseDTO): void {
-    
+
     if (response.status !== 200 && response.status !== 201) {
       const errorMessage = `Erro ao criar usuário. Status inesperado: ${response.status}`;
       throwError({ status: response.status, data: null, message: errorMessage });

@@ -1,11 +1,4 @@
-<ul *ngIf="productsFounded.length > 0" class="floating-list" [hidden]="!isVisible">
-    <li *ngFor="let product of productsFounded">
-        <strong>{{ product.name }}</strong><br />
-        <p>ID: {{ product.id }} | SKU: {{ product.sku }}</p>
-        <p>Preço: R${{ product.price }}</p>
-        <button class="btn btn-green" (click)="selectCurrentItem(product); toogleMenu(false)">ADICIONAR ITEM</button>
-    </li>
-</ul>
+
 
 <p *ngIf="productsFounded != null && productsFounded.length === 0 && productSearch">Nenhum produto encontrado.</p>
 
@@ -18,22 +11,28 @@
 
         <div class="info-section">
             <div class="info-block">
-                <p><strong>USUÁRIO</strong><br>JOÃO MAURÍCIO NETO COSTA</p>
+                <p><strong>PEDIDO</strong><br>#A3F1JKL2D</p>
                 <p><strong>CLIENTE</strong><br>FREDERICO MENDEZ SILVA</p>
             </div>
             <div class="info-block">
-                <p><strong>CPF</strong><br>XXX.XXX.XXX-00</p>
-                <p><strong>X</strong><br>XXX</p>
+                <p><strong>X</strong><br>.</p>
+                <p><strong>CPF</strong><br>XXX.XXX.XX1-22</p>
             </div>
         </div>
 
+        <!-- LEFT SIDE -->
         <div class="form-section">
 
             <form action="" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                    <label class="default-label" for="product-search">Código do Produto</label>
-                    <input type="text" id="product-search" [formControl]="searchProduct" name="productSearch" placeholder="Nome, SKU ou Cód. de Barras..."
-                        required />
+                    <label class="default-label" for="product-search">Produto</label>
+                    <input type="text" id="product-search" [formControl]="searchProduct" name="productSearch" placeholder="Nome"
+                      required />
+                </div>
+
+                <div class="form-group">
+                    <label class="default-label" for="search-code-product">Código do Produto</label>
+                    <input type="text" id="search-code-product" [formControl]="searchCodeProduct" name="searchCodeProduct" placeholder="SKU ou Cód. de Barras..."/>
                 </div>
 
                 <div class="form-group">
@@ -41,15 +40,50 @@
                     <input type="text" value="2" [formControl]="quantitySaleItem" id="qty-saleitem">
                 </div>
 
-                <div class="button-group">
-                    <button class="btn-send-sale" (click)="addItemToSale()">ADICIONAR AO PEDIDO</button>
-                </div>
+                <!--
+                <ul *ngIf="productsFounded.length > 0" class="floating-list" [hidden]="!isVisible">
+                  <li *ngFor="let product of productsFounded">
+                    <strong>{{ product.name }}</strong><br />
+                    <p>ID: {{ product.id }} | SKU: {{ product.sku }}</p>
+                    <p>Preço: R${{ product.price }}</p>
+                    <button class="btn btn-green" (click)="selectCurrentItem(product); toogleMenu(false)">ADICIONAR ITEM</button>
+                  </li>
+                </ul>-->
 
             </form>
         </div>
+        <div *ngIf="productsFounded.length > 0 && isVisible" class="product-grid">
+
+
+          <div class="product-card" *ngFor="let product of productsFounded">
+
+            <div class="product-image">
+              <img src="src/assets/img/produto-de-limpeza-color.png" alt="{{ product.name }}">
+            </div>
+
+            <div class="product-info">
+              <h4>{{ product.name }}</h4>
+
+              <div class="price">
+                <span class="current">R$ {{ product.price }}</span>
+                <span class="old">R$ {{ product.price + 10 }}</span>
+              </div>
+
+              <div class="actions">
+                <button class="btn-primary" (click)="selectCurrentItem(product); toogleMenu(false); addItemToSale()">
+                  Adicionar
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
 
     </div>
 
+    <!-- RIGHT SIDE -->
     <div class="right-col-section">
 
         <div class="cart-section">
@@ -67,10 +101,16 @@
                     <tbody *ngIf="saleItemList.length > 0">
 
                         <tr *ngFor="let saleItem of saleItemList">
-                            <td>{{ saleItem.productId }} </td>
-                            <td>{{ saleItem.quantity }} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; X</td>
+                            <td>{{ saleItem.product?.name }} </td>
+                            <button class="btn-minus" (click)="decreaseQuantity(saleItem)">
+                              -
+                            </button>
+                            <td>{{ saleItem.quantity }}</td>
+                            <button class="btn-plus" (click)="increaseQuantity(saleItem)">
+                              +
+                            </button>
                             <td>{{ saleItem.product?.price }} </td>
-                            <td>{{ saleItem.total | currency:'BRL':'symbol':'1.2-2' }} </td>
+                            <td>{{ (saleItem.quantity * (saleItem.product?.price || 0)) | currency:'BRL':'symbol':'1.2-2' }} </td>
                         </tr>
 
                     </tbody>
@@ -91,7 +131,7 @@
                 </div>
             </div>
             <div class="finalize" (click)="processSale()">FINALIZAR COMPRA</div>
-            
+
             <app-alert [alertData]="alertData" *ngIf="showAlert"></app-alert>
         </div>
     </div>
